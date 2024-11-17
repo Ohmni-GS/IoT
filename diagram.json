@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "author": "Matheus Zanutin",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -50, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 85.1,
+      "left": -96.2,
+      "attrs": { "value": "5000" }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot2",
+      "top": -68.5,
+      "left": -105.8,
+      "attrs": { "value": "5000" }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -185.6,
+      "left": 120.8,
+      "attrs": { "pins": "i2c" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "pot1:1", "esp:3V3", "red", [ "v-10", "h-20" ] ],
+    [ "pot1:2", "esp:VP", "orange", [ "v-10", "h0" ] ],
+    [ "pot1:3", "esp:GND", "black", [ "v-10", "h-20" ] ],
+    [ "pot2:1", "esp:3V3", "red", [ "v-10", "h0" ] ],
+    [ "pot2:2", "esp:VN", "blue", [ "v-10", "h0" ] ],
+    [ "pot2:3", "esp:GND", "black", [ "v-10", "h0" ] ],
+    [ "esp:VP", "pot2:SIG", "green", [ "h-23.81", "v11.6", "h-38.4" ] ],
+    [ "pot2:VCC", "esp:3V3", "red", [ "v-19.2", "h56.8" ] ],
+    [ "pot2:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "pot1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "pot1:SIG", "esp:VN", "green", [ "v0" ] ],
+    [ "pot1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "lcd1:GND", "esp:GND.3", "black", [ "h0" ] ],
+    [ "lcd1:VCC", "esp:5V", "red", [ "h0" ] ],
+    [ "lcd1:SDA", "esp:21", "green", [ "h0" ] ],
+    [ "lcd1:SCL", "esp:22", "green", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
