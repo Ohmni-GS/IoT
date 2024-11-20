@@ -29,7 +29,7 @@ WiFiClientSecure espClient;
 PubSubClient MQTT(espClient);
 Preferences preferences;
 unsigned long publishUpdate = 0;
-bool conectado = false; // Estado do dispositivo
+bool conectado = false;
 
 void updateSensorValues();
 void initWiFi();
@@ -66,7 +66,6 @@ void getStoredID()
   }
   preferences.end();
 
-  // Configurando os tópicos com base no ID
   snprintf(TOPIC_SUBSCRIBE_ID, sizeof(TOPIC_SUBSCRIBE_ID), "iot/%s/connect", ID_MQTT);
   snprintf(TOPIC_PUBLISH_DATA, sizeof(TOPIC_PUBLISH_DATA), "iot/%s/data", ID_MQTT);
 }
@@ -130,7 +129,6 @@ void callbackMQTT(char *topic, byte *payload, unsigned int length)
   String msg = String((char *)payload).substring(0, length);
   Serial.printf("Mensagem recebida: %s do tópico: %s\n", msg.c_str(), topic);
 
-  // Verifica se o tópico é o correto para o ID do dispositivo
   if (strcmp(topic, TOPIC_SUBSCRIBE_ID) == 0)
   {
     if (msg.equals("connect"))
@@ -145,7 +143,7 @@ void callbackMQTT(char *topic, byte *payload, unsigned int length)
     }
     else if (msg.equals("disconnect"))
     {
-      conectado = false; // Altera o estado para desconectado
+      conectado = false;
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Desconectado!");
@@ -165,7 +163,7 @@ void reconnectMQTT()
     if (MQTT.connect(ID_MQTT, MQTT_USER, MQTT_PASSWORD))
     {
       Serial.println("Conectado ao Broker MQTT!");
-      MQTT.subscribe(TOPIC_SUBSCRIBE_ID); // Assina apenas o tópico do ID
+      MQTT.subscribe(TOPIC_SUBSCRIBE_ID);
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("ID: ");
